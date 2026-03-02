@@ -1,0 +1,5 @@
+asset_id,channel,traffic_type,funnel_stage,content_type,segment_strategy,attention_score,persuasion_score,raw_metrics
+tiktok_001,tiktok,organic,TOFU,video,Bold authentic UGC for Gen Z,0.72,0.45,"{""views"": 15000, ""ctr"": 0.028}"
+tiktok_002,tiktok,paid,MOFU,video,Product showcase with energy,0.65,0.58,"{""views"": 25000, ""ctr"": 0.035}"
+instagram_001,instagram_feed,organic,TOFU,video,Lifestyle minimalist content,0.55,0.42,"{""views"": 8000}"
+instagram_002,instagram_feed,paid,BOFU,video,Direct response product focused,0.48,0.71,"{""impressions"": 50000}"
