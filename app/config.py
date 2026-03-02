@@ -15,15 +15,16 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
+        protected_namespaces=("settings_",),  # Fix pydantic warning
     )
 
-    # Database URLs
-    database_url: str
+    # Database URLs (required - must be set in Railway)
+    database_url: str = ""
     database_url_direct: Optional[str] = None
 
-    # Model configuration
-    model_dir: str = "./models"
-    model_version: str = "v1"
+    # Model configuration (renamed to avoid pydantic namespace conflict)
+    ml_model_dir: str = "./models"
+    ml_model_version: str = "v1"
 
     # Server configuration
     port: int = 8000
@@ -47,8 +48,23 @@ class Settings(BaseSettings):
         """Return direct connection URL for Alembic migrations."""
         return self.database_url_direct or self.database_url
 
+    # Aliases for backward compatibility
+    @property
+    def model_dir(self) -> str:
+        return self.ml_model_dir
+
+    @property
+    def model_version(self) -> str:
+        return self.ml_model_version
+
 
 @lru_cache()
 def get_settings() -> Settings:
     """Cached settings instance."""
-    return Settings()
+    settings = Settings()
+    if not settings.database_url:
+        raise ValueError(
+            "DATABASE_URL environment variable is required. "
+            "Set it in Railway: Settings -> Variables -> DATABASE_URL"
+        )
+    return settings
