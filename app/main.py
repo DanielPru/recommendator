@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import router
+from app.api.cron_routes import router as cron_router
 from app.config import get_settings
 from app.ml.model_manager import get_model_manager
 
@@ -53,6 +54,7 @@ def create_app() -> FastAPI:
 
     # Include API routes
     app.include_router(router, tags=["CVIE"])
+    app.include_router(cron_router)
 
     return app
 
